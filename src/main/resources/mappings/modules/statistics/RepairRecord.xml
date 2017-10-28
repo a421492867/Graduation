@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ofo.modules.statistics.dao.RepairRecordDao">
+
+	<resultMap type="RepairRecord" id="resultMap">
+		<id property="id" column="id"/>
+		<result property="createDate" column="create_date"/>
+		<result property="ofoId" column="ofo_id"/>
+	</resultMap>
+
+	<select id="getCount" resultType="java.util.HashMap">
+		select   
+		sum(case month(repair_record.create_date) when '1' then 1 else 0 end) as 1月,  
+		sum(case month(repair_record.create_date) when '2' then 1 else 0 end) as 2月,  
+		sum(case month(repair_record.create_date) when '3' then 1 else 0 end) as 3月,  
+		sum(case month(repair_record.create_date) when '4' then 1 else 0 end) as 4月,  
+		sum(case month(repair_record.create_date) when '5' then 1 else 0 end) as 5月,  
+		sum(case month(repair_record.create_date) when '6' then 1 else 0 end) as 6月,  
+		sum(case month(repair_record.create_date) when '7' then 1 else 0 end) as 7月,  
+		sum(case month(repair_record.create_date) when '8' then 1 else 0 end) as 8月,  
+		sum(case month(repair_record.create_date) when '9' then 1 else 0 end) as 9月,  
+		sum(case month(repair_record.create_date) when '10' then 1 else 0 end) as 10月,  
+		sum(case month(repair_record.create_date) when '11' then 1 else 0 end) as 11月,  
+		sum(case month(repair_record.create_date) when '12' then 1 else 0 end) as 12月  
+		from repair_record  
+		where year(repair_record.create_date)='2017';  
+	</select>
+    
+    
+
+
+
+</mapper>

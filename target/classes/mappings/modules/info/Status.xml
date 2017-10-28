@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ofo.modules.info.dao.StatusDao">
+
+	<resultMap type="Status" id="resultMap">
+		<id property="id" column="id"/>
+		<result property="ofoCode" column="ofo_code"/>
+		<result property="ofoStatus" column="ofo_status"/>
+	</resultMap>
+	
+	<resultMap type="StatusVO" id="resultVOMap">
+		<id property="id" column="id"/>
+		<result property="ofoCode" column="ofo_code"/>
+		<result property="ofoStatus" column="ofo_status"/>
+		<result property="location" column="location"/>
+	</resultMap>
+	
+	<!-- Status相关 -->
+	<select id="findByPage" parameterType="java.util.Map"
+		resultMap="resultMap">
+		select * from ofo_status
+		order by id asc
+       limit #{start},#{pageSize}
+	</select>
+	
+	<select id="getPageCount" parameterType="java.util.Map" resultType="int">  
+       select count(*)
+       from ofo_status 
+       	  
+    </select>  
+    
+     <insert id="insert" parameterType="com.ofo.modules.info.entity.Status">
+    	insert into ofo_status (ofo_code,ofo_status)
+    	values(#{ofoCode,jdbcType=VARCHAR},#{ofoStatus,jdbcType=VARCHAR})
+    </insert>
+    
+    <delete id="delete">
+    	delete from ofo_status
+   		where ofo_code = #{ofoCode}
+    </delete>
+    
+    <select id="findPageByCondition" parameterType="java.util.Map"
+		resultMap="resultMap">
+			select * from ofo_status where ofo_status = #{ofoStatus}
+			order by id asc
+       		limit #{start},#{pageSize} 
+	</select>
+	
+	<select id="getCountWithCondition" parameterType="java.util.Map" resultType="int">
+		select count(*)
+		from ofo_status
+		where ofo_status = #{ofoStatus}
+	</select> 
+	
+	<!-- StatusVO相关 -->
+	<select id="findPageByStatus" parameterType="java.util.Map"
+		resultMap="resultVOMap">
+		select a.* , b.location from ofo_status a
+		left join ofo_info b on a.ofo_code = b.ofo_code
+		where a.ofo_status = #{ofoStatus}
+		<if test="location != null and location != ''">
+		and b.location like '%${location}%'
+		</if>
+		order by id asc
+       limit #{start},#{pageSize}
+	</select>
+	
+	<select id="getPageCountByStatus" parameterType="java.util.Map" resultType="int">  
+		
+		select count(*) from (select a.*,b.location from ofo_status a
+		left join ofo_info b on a.ofo_code = b.ofo_code
+		where a.ofo_status = #{ofoStatus}
+		<if test="location != null and location != ''">
+		and b.location like '%${location}%'
+		</if>
+		)as total
+       	  
+    </select>  
+    
+    <select id="findVoById" resultType="com.ofo.modules.fault.vo.StatusVO">
+    	select a.*,b.location from ofo_status a
+    	left join ofo_info b on a.ofo_code = b.ofo_code
+    	where a.id = #{#id}
+    
+    </select>
+	
+    
+    
+    <!-- 
+    
+    <select id="findById" resultType="com.ofo.modules.info.entity.Info">
+    	select * from ofo_info
+    	where id = #{id} and del_flag = '0'
+    </select>
+    
+    <update id="update" parameterType="java.util.Map">
+    	update ofo_info 
+    	 <trim prefix="SET" prefixOverrides=","> 
+	
+	<if test="ofoCode != null and ofoCode != ''">
+		,ofo_code = #{ofoCode,jdbcType=VARCHAR}
+	</if>
+	<if test="ofoPass != null and ofoPass != ''">
+		,ofo_pass = #{ofoPass,jdbcType=VARCHAR}
+	</if>
+	<if test="location != null and location != ''">
+		,location = #{location,jdbcType=VARCHAR}
+	</if>
+	<if test="lng != null and lng != ''">
+		,lng = #{lng,jdbcType=VARCHAR}
+	</if>
+	<if test="lat != null and lat != ''">
+		,lat = #{lat,jdbcType=VARCHAR}
+	</if>
+	where id = #{id}
+	</trim>
+    </update>
+    
+    
+    
+    <select id="findLocation" resultType="com.ofo.modules.info.entity.Info">
+    	select lng,lat from ofo_info
+    	where id = #{id}
+    </select>-->
+
+
+
+</mapper>

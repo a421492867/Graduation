@@ -1,0 +1,34 @@
+/*************顶部tab*********/
+.tab-back{
+ 	height: 100px; 
+ 	/* background: url("../../../images/top-back.jpeg") no-repeat scroll transparent;
+ 	background-size:100% 100%;  */
+ 	background-color : #222d32;
+	margin-bottom: 4px;
+	
+}
+.tab-image{
+	width:100%;
+	height:70%;
+	text-align: center;
+	padding-top: 20px;
+}
+.tab-text{
+	font-size: 15px;
+	font-family: 微软雅黑;
+	color: #a5c5e4;
+}
+.tab-text-clicked{
+	font-size: 15px;
+	font-family: 微软雅黑;
+	color: #ffffff;
+}
+.tab-btn{
+	width:75%;
+	height:100%;
+	margin-left: auto;
+	margin-right: auto;
+	cursor:pointer; 
+}
+
+/**********************/

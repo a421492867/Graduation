@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ofo.modules.sys.dao.UserDao">
+
+	<resultMap type="User" id="resultListUser">
+		<id property="id" column="id"/>
+		<result property="userName" column="user_name"/>
+		<result property="nickName" column="nick_name"/>
+		<result property="password" column="password"/>
+		<result property="roleId" column="role_id"/>
+		<result property="userLocation" column="user_location"/>
+	</resultMap>
+
+	<select id="selectByName" parameterType="String"
+		resultType="User">
+		select * from ofo_user where user_name = #{userName}
+	</select>
+	
+	<select id="findRoles" parameterType="String" resultType="String">
+        select r.role_name from ofo_user u,ofo_role r where u.role_id=r.id and u.user_name=#{userName}
+    </select>
+    
+    <select id="findUserByLocation" parameterType="String"
+		resultType="User">
+		select * from ofo_user where user_location = #{userLocation} and role_id = 3
+	</select>
+    
+    <!-- <select id="findPermissions" parameterType="String" resultType="String">
+        select p.permission_name from ofo_user u,ofo_role r,ofo_permission p
+        where u.role_id=r.id and p.role_id=r.id and u.user_name=#{userName}
+    </select> -->
+    
+    <select id="findByPage" parameterType="java.util.Map"
+		resultMap="resultListUser">
+		select * from ofo_user
+		<if test="roleId != null and roleId != ''">
+		where role_id = #{roleId}
+		</if>
+		order by id asc
+       limit #{start},#{pageSize}
+	</select>
+	
+	<select id="getPageCount" parameterType="java.util.Map" resultType="int">  
+       select count(*)
+       from ofo_user 
+       <if test="roleId != null and roleId != ''">
+	   where role_id = #{roleId}
+	   </if>  
+    </select>  
+    
+    <select id="findOne" parameterType="java.util.Map" resultType="int">
+		select count(*) from ofo_user where user_name = #{userName} 
+	</select>
+	
+	<insert id="insert" parameterType="com.ofo.modules.sys.entity.User">
+    	insert into ofo_user (user_name,nick_name,password,role_id,user_location)
+    	values(#{userName},#{nickName},
+    	#{password},#{roleId},#{userLocation})
+    </insert>
+    
+    <delete id="delete">
+    	delete from ofo_user
+   		where id = #{id}
+    </delete>
+    
+    <select id="findById" resultType="com.ofo.modules.sys.entity.User">
+    	select * from ofo_user
+    	where id = #{id} 
+    </select>
+    
+    <update id="updateByRoot" parameterType="java.util.Map">
+    	update ofo_user 
+    	 <trim prefix="SET" prefixOverrides=","> 
+	
+	<if test="nickName != null and nickName != ''">
+		,nick_name = #{nickName}
+	</if>
+	<if test="roleId != null and roleId != ''">
+		,role_id = #{roleId}
+	</if>
+	<if test="userLocation != null and userLocation != ''">
+		,user_location = #{userLocation}
+	</if>
+	where id = #{id}
+	</trim>
+    </update>
+
+
+
+</mapper>
