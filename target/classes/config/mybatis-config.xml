@@ -52,5 +52,6 @@
 		<typeAlias alias="MessageType" type="com.ofo.modules.message.entity.MessageType" />
 		<typeAlias alias="RepairRecord" type="com.ofo.modules.statistics.entity.RepairRecord" />
 		<typeAlias alias="RentRecord" type="com.ofo.modules.statistics.entity.RentRecord" />
+		<typeAlias alias="Bill" type="com.ofo.modules.bill.entity.Bill" />
 	</typeAliases>
 </configuration>
